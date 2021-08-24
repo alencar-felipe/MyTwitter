@@ -5,6 +5,10 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Encapsulate a user
+ */
+
 public abstract class Perfil {
     @Getter
     @Setter
