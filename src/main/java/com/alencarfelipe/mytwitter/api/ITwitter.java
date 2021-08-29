@@ -5,12 +5,15 @@ import java.util.List;
 import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.Tweet;
 
+import org.springframework.stereotype.Component;
+
 /**
  * API contract
  * 
  * @author alencar-felipe
  */
 
+@Component
 public interface ITwitter {
     /**
      * Responsible for registering the profiles passed as parameter
@@ -59,7 +62,7 @@ public interface ITwitter {
      * @param seguidor
      * @param seguido
      */
-    public void seguir(String seguidor, String seguido);
+    public void seguir(String seguidor, String seguido) throws PIException, PDException, SIException;
 
     /**
      * Retrieves the number of followers of the profile passed as parameter
@@ -67,7 +70,7 @@ public interface ITwitter {
      * @param usuario
      * @return
      */
-    public int numeroSeguidores(String usuario);
+    public int numeroSeguidores(String usuario) throws PIException, PDException;
 
     /**
      * Retrieves the followers of the profile passed as parameter
@@ -75,7 +78,7 @@ public interface ITwitter {
      * @param usuario
      * @return
      */
-    public List<Tweet> seguidores(String usuario);
+    public List<Perfil> seguidores(String usuario) throws PIException, PDException;
 
     /**
      * Retrieves the profiles followed by the profile passed as parameter
@@ -83,5 +86,5 @@ public interface ITwitter {
      * @param usuario
      * @return
      */
-    public List<Perfil> seguidos(String usuario);
+    public List<Perfil> seguidos(String usuario) throws PIException, PDException;
 }
