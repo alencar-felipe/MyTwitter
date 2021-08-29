@@ -9,21 +9,29 @@ import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.repositorio.UJCException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Primary
 @Component
 @RequiredArgsConstructor
 public class Twitter implements ITwitter {
-    private final IRepositorioUsuario repositorioUsuario;
-    private final ITweetRepository tweetRepository;
+    @Setter
+    @Autowired
+    private IRepositorioUsuario repositorioUsuario;
+    
+    @Setter
+    @Autowired
+    private ITweetRepository tweetRepository;
 
     @Override
     public void criarPerfil(Perfil usuario) throws PEException {
-        try{ 
+        try{
+            usuario.setAtivo(true);
             repositorioUsuario.cadastrar(usuario);
         } catch (UJCException ex) {
             throw new PEException();

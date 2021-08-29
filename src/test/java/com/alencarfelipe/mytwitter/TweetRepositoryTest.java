@@ -19,7 +19,10 @@ import com.alencarfelipe.mytwitter.services.ITweetServices;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
+@TestMethodOrder(OrderAnnotation.class)
 public class TweetRepositoryTest {
     private static String uri = "mongodb://127.0.0.1:27017";
     private static String dbName = "MyTwitter";
