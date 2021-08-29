@@ -1,4 +1,4 @@
-package com.alencarfelipe.mytwitter.dtos;
+package com.alencarfelipe.mytwitter.pojos;
 
 import lombok.Getter;
 import lombok.Setter;

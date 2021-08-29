@@ -1,6 +1,6 @@
 package com.alencarfelipe.mytwitter.repositorio;
 
-import com.alencarfelipe.mytwitter.dtos.Perfil;
+import com.alencarfelipe.mytwitter.pojos.Perfil;
 
 /**
  * Interface for MyTwitter repository

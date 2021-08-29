@@ -1,4 +1,4 @@
-package com.alencarfelipe.mytwitter.dtos;
+package com.alencarfelipe.mytwitter.pojos;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
  * Encapsulate a user
  */
 
-public abstract class Perfil {
+public class Perfil {
     @Getter
     @Setter
     private String usuario;

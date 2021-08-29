@@ -1,14 +1,16 @@
 package com.alencarfelipe.mytwitter.repositorio;
 
-import com.alencarfelipe.mytwitter.dtos.Perfil;
+import java.util.List;
 
+import com.alencarfelipe.mytwitter.pojos.Perfil;
+import com.alencarfelipe.mytwitter.pojos.Tweet;
 public interface ITweetRepository {
     /**
      * Adds new tweet to repository
      * 
      * @param tweet
      */
-    public void addTweet(Tweet tweet) throws UNCException, INException;
+    public void addTweet(Tweet tweet) throws INException;
 
     /**
      * Get list of tweets made by a user

@@ -6,6 +6,6 @@ package com.alencarfelipe.mytwitter.repositorio;
  * @author alencar-felipe
  */
 
-public class INException extends Exception {
+public class INException extends RuntimeException {
     
 }
