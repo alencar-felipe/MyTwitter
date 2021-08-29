@@ -3,50 +3,70 @@ package com.alencarfelipe.mytwitter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
+import com.alencarfelipe.mytwitter.mongodb.UserRepository;
+import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.PessoaFisica;
-import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
+import com.alencarfelipe.mytwitter.pojos.Tweet;
+import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.repositorio.UNCException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 public class UserRepositoryTest {
-    @Autowired
-    IRepositorioUsuario repositorioUsuario;
+    private static String uri = "mongodb://127.0.0.1:27017";
+    private static String dbName = "MyTwitter";
+
+    private static ITweetRepository tweetRepository;
+
+    private static UserRepository userRepository;
 
     private static String username = "teste";
     private static long cpf1 = 1689169087L;
     private static long cpf2 = 84534636970L;
     private static PessoaFisica pessoaFisica;
 
+    @BeforeAll
+    private static void setup() {
+        pessoaFisica = new PessoaFisica(username);
+        pessoaFisica.setCpf(cpf1);
+        pessoaFisica.setSeguidores(new ArrayList<Perfil>());
+        pessoaFisica.setSeguidos(new ArrayList<Perfil>());
+
+        tweetRepository = mock(ITweetRepository.class);
+        when(tweetRepository.getPerfilTweets(pessoaFisica)).thenReturn(new ArrayList<Tweet>());
+
+        userRepository = new UserRepository();
+        userRepository.setUri(uri);
+        userRepository.setDbName(dbName);
+        userRepository.setTweetRepository(tweetRepository);
+
+
+    }
+
     @Test
     @Order(1)
     void cadastrarTest() {
-        pessoaFisica = new PessoaFisica(username);
-        pessoaFisica.setCpf(cpf1);
+        
 
         try {
-            repositorioUsuario.delete(pessoaFisica);
+            userRepository.delete(pessoaFisica);
         } catch(UNCException ex) {
 
         }
 
-        repositorioUsuario.cadastrar(pessoaFisica);
+        userRepository.cadastrar(pessoaFisica);
 
-        PessoaFisica perfil = (PessoaFisica) repositorioUsuario.buscar(username);
+        PessoaFisica perfil = (PessoaFisica) userRepository.buscar(username);
 
         assertNotNull(perfil);
         assertEquals(username, perfil.getUsuario());
@@ -58,9 +78,9 @@ public class UserRepositoryTest {
     void atualizarTest() {
         pessoaFisica.setCpf(cpf2);
 
-        repositorioUsuario.atualizar(pessoaFisica);
+        userRepository.atualizar(pessoaFisica);
 
-        PessoaFisica perfil = (PessoaFisica) repositorioUsuario.buscar(username);
+        PessoaFisica perfil = (PessoaFisica) userRepository.buscar(username);
 
         assertEquals(cpf2, perfil.getCpf());
     }
@@ -68,9 +88,9 @@ public class UserRepositoryTest {
     @Test
     @Order(3)
     void deleteTest() {
-        repositorioUsuario.delete(pessoaFisica);
+        userRepository.delete(pessoaFisica);
 
-        PessoaFisica perfil = (PessoaFisica) repositorioUsuario.buscar(username);
+        PessoaFisica perfil = (PessoaFisica) userRepository.buscar(username);
 
         assertNull(perfil);
     }
