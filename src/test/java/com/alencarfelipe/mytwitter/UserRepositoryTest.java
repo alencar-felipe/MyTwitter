@@ -47,5 +47,7 @@ public class UserRepositoryTest {
         perfil = (PessoaFisica) repositorioUsuario.buscar(username);
 
         assertNull(perfil);
+
+        //TODO: add timeline tests
     }
 }
