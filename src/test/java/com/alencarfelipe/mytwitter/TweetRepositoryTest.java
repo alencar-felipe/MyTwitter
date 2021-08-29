@@ -1,8 +1,13 @@
 package com.alencarfelipe.mytwitter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import com.alencarfelipe.mytwitter.mongodb.TweetRepository;
 import com.alencarfelipe.mytwitter.pojos.Perfil;
@@ -10,36 +15,45 @@ import com.alencarfelipe.mytwitter.pojos.Tweet;
 import com.alencarfelipe.mytwitter.repositorio.IMException;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.services.ITweetServices;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 public class TweetRepositoryTest {
-    String uri = "mongodb://127.0.0.1:27017";
-    String dbName = "MyTwitter";
+    private static String uri = "mongodb://127.0.0.1:27017";
+    private static String dbName = "MyTwitter";
 
-    @Test
-    void tweetRepositoryTest() {
-        String username = "test";
-        String message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " + 
-            "Quisque massa est, iaculis ut commodo vel, ultrices ac est leo.";
-        String bigMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " + 
-            "Curabitur commodo facilisis augue, et fringilla nibh pharetra eget. " + 
-            "Ut eget nunc quis urna tempus lacinia a sed risus. Sed eget auctor purus. " + 
-            "Donec sagittis elementum luctus volutpat.";
-        String emptyMessage = "";
+    private static String username = "test";
+    private static String message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " + 
+        "Quisque massa est, iaculis ut commodo vel, ultrices ac est leo.";
+    private static String bigMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " + 
+        "Curabitur commodo facilisis augue, et fringilla nibh pharetra eget. " + 
+        "Ut eget nunc quis urna tempus lacinia a sed risus. Sed eget auctor purus. " + 
+        "Donec sagittis elementum luctus volutpat.";
+    private static String emptyMessage = "";
 
-        Tweet tweet = new Tweet();
+    private static Tweet tweet, invalidUserTweet, bigTweet, emptyTweet;
+
+    private static Perfil perfil;
+
+    private static TweetRepository tweetRepository;
+
+    @BeforeAll
+    private static void setup() {
+        tweet = new Tweet();
         tweet.setUsuario(username);
         tweet.setMensagem(message);
 
-        Tweet invalidUserTweet = new Tweet();
+        invalidUserTweet = new Tweet();
         invalidUserTweet.setUsuario("no_one");
         invalidUserTweet.setMensagem(message);
 
-        Tweet bigTweet = new Tweet();
+        bigTweet = new Tweet();
         bigTweet.setUsuario(username);
         bigTweet.setMensagem(bigMessage);
 
-        Tweet emptyTweet = new Tweet();
+        emptyTweet = new Tweet();
         emptyTweet.setUsuario(username);
         emptyTweet.setMensagem(emptyMessage);
 
@@ -48,16 +62,20 @@ public class TweetRepositoryTest {
         when(tweetServices.isTweetValid(bigTweet)).thenReturn(false);
         when(tweetServices.isTweetValid(emptyTweet)).thenReturn(false);
 
-        Perfil perfil = new Perfil(username);
+        perfil = new Perfil(username);
         IRepositorioUsuario repositorioUsuario = mock(IRepositorioUsuario.class);
         when(repositorioUsuario.buscar(username)).thenReturn(perfil);
         
-        TweetRepository tweetRepository = new TweetRepository();
+        tweetRepository = new TweetRepository();
         tweetRepository.setUri(uri);
         tweetRepository.setDbName(dbName);
         tweetRepository.setTweetServices(tweetServices);
         tweetRepository.setRepositorioUsuario(repositorioUsuario);
-        
+    }
+
+    @Test
+    @Order(1)
+    void addTweetTest() {
         tweetRepository.addTweet(tweet);
         
         try {
@@ -68,5 +86,16 @@ public class TweetRepositoryTest {
         } catch(IMException ex) {
 
         }
+    }
+
+    @Test
+    @Order(2)
+    void getPerfilTweetsTest() {
+        List<Tweet> tweets = tweetRepository.getPerfilTweets(perfil);
+
+        assertTrue(tweets.contains(tweet));
+        assertFalse(tweets.contains(invalidUserTweet));
+        assertFalse(tweets.contains(bigTweet));
+        assertFalse(tweets.contains(emptyTweet));
     }
 }
