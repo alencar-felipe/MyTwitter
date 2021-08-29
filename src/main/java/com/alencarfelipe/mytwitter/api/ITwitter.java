@@ -2,8 +2,8 @@ package com.alencarfelipe.mytwitter.api;
 
 import java.util.List;
 
-import com.alencarfelipe.mytwitter.dtos.Perfil;
-import com.alencarfelipe.mytwitter.dtos.Tweet;
+import com.alencarfelipe.mytwitter.pojos.Perfil;
+import com.alencarfelipe.mytwitter.pojos.Tweet;
 
 /**
  * API contract
