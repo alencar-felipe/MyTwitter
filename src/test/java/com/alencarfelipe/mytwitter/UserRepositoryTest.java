@@ -2,14 +2,12 @@ package com.alencarfelipe.mytwitter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.PessoaFisica;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,5 +41,11 @@ public class UserRepositoryTest {
         repositorioUsuario.atualizar(perfil);
 
         assertEquals(cpf2, perfil.getCpf());
+
+        repositorioUsuario.delete(perfil);
+
+        perfil = (PessoaFisica) repositorioUsuario.buscar(username);
+
+        assertNull(perfil);
     }
 }

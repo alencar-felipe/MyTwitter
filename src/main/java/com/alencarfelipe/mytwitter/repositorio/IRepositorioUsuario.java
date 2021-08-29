@@ -31,4 +31,13 @@ public interface IRepositorioUsuario {
      * @throws UNCException
      */
     public void atualizar(Perfil usuario) throws UNCException;
+
+    /**
+     * Delete all user data (FOR INTERNAL USE ONLY)
+     * Useful for integration tests
+     * 
+     * @param usuario
+     * @throws UNCException
+     */
+    public void delete(Perfil usuario) throws UNCException;
 }

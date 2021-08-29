@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -28,14 +29,17 @@ import static com.mongodb.client.model.Filters.eq;
 @Component
 @RequiredArgsConstructor
 public class UserRepository implements IRepositorioUsuario {
-    @Autowired
-    private ITweetRepository tweetRepository;
-
     @Value("${database.uri}")
+    @Setter
     private String uri;
     
     @Value("${database.name}")
+    @Setter
     private String dbName;
+
+    @Autowired
+    @Setter
+    private ITweetRepository tweetRepository;
 
     private MongoClient mongoClient;
     private MongoDatabase db;
@@ -89,16 +93,26 @@ public class UserRepository implements IRepositorioUsuario {
     }
 
     @Override
-    public void atualizar(Perfil usuario) throws UNCException {
+    public void atualizar(Perfil perfil) throws UNCException {
         connect();
 
-        if(buscar(usuario.getUsuario()) == null) {
+        if(buscar(perfil.getUsuario()) == null) {
             throw new UNCException();
         }
 
-        PerfilDTO perfil = new PerfilDTO(usuario);
+        PerfilDTO perfilDTO = new PerfilDTO(perfil);
         
-        perfis.replaceOne(eq("usuario", perfil.getUsuario()), perfil);
+        perfis.replaceOne(eq("usuario", perfil.getUsuario()), perfilDTO);
     }
-    
+
+    @Override
+    public void delete(Perfil perfil) throws UNCException {
+        connect();
+        
+        if(buscar(perfil.getUsuario()) == null) {
+            throw new UNCException();
+        }
+
+        perfis.deleteOne(eq("usuario", perfil.getUsuario()));
+    }
 }

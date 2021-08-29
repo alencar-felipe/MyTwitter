@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.util.ArrayUtils;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -36,17 +37,21 @@ import static com.mongodb.client.model.Filters.eq;
 @Component
 @RequiredArgsConstructor
 public class TweetRepository implements ITweetRepository {
-    @Autowired
-    private ITweetServices tweetServices;
-    
-    @Autowired
-    private IRepositorioUsuario repositorioUsuario;
-
+    @Setter
     @Value("${database.uri}")
     private String uri;
     
+    @Setter
     @Value("${database.name}")
     private String dbName;
+
+    @Setter
+    @Autowired
+    private ITweetServices tweetServices;
+
+    @Setter
+    @Autowired
+    private IRepositorioUsuario repositorioUsuario;
 
     private MongoClient mongoClient;
     private MongoDatabase db;
