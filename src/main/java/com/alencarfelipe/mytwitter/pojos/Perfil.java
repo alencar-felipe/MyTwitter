@@ -15,12 +15,15 @@ public class Perfil {
     private String usuario;
     
     @Getter
+    @Setter
     private List<Perfil> seguidos;
     
     @Getter
+    @Setter
     private List<Perfil> seguidores;
     
     @Getter
+    @Setter
     private List<Tweet> timeline;
     
     @Setter

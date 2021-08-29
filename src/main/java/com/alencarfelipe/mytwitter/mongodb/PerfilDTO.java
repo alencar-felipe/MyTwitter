@@ -24,8 +24,19 @@ public class PerfilDTO {
     
     public PerfilDTO(Perfil perfil) {
         usuario = perfil.getUsuario();
-        seguidos = perfil.getSeguidos();
-        seguidores = perfil.getSeguidores();
+
+        seguidos = new ArrayList<String>();
+
+        for(Perfil p : perfil.getSeguidos()) {
+            seguidos.add(p.getUsuario());
+        }
+
+        seguidores = new ArrayList<String>();
+
+        for(Perfil p : perfil.getSeguidores()) {
+            seguidores.add(p.getUsuario());
+        }
+
         ativo = perfil.isAtivo();
 
         if(perfil instanceof PessoaFisica) {
@@ -62,7 +73,6 @@ public class PerfilDTO {
 
             default:
                 throw new UnsupportedOperationException();
-                break;
         }
         
         ArrayList<Perfil> seguidos = new ArrayList<>();
@@ -88,6 +98,8 @@ public class PerfilDTO {
 
         perfil.setTimeline(timeline);
         
-        perfil.setAtivo(ativo);   
+        perfil.setAtivo(ativo);
+
+        return perfil;
     }
 }

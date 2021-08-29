@@ -2,6 +2,7 @@ package com.alencarfelipe.mytwitter.mongodb;
 
 import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
+import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.repositorio.UJCException;
 import com.alencarfelipe.mytwitter.repositorio.UNCException;
 import com.mongodb.ConnectionString;
@@ -14,15 +15,22 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
 
 import static com.mongodb.client.model.Filters.eq;
 
 @Primary
 @Component
+@RequiredArgsConstructor
 public class UserRepository implements IRepositorioUsuario {
+    @Autowired
+    private ITweetRepository tweetRepository;
+
     @Value("${database.uri}")
     private String uri;
     
@@ -77,7 +85,7 @@ public class UserRepository implements IRepositorioUsuario {
             return null;
         }
 
-        return perfilDTO.toPerfil();
+        return perfilDTO.toPerfil(tweetRepository);
     }
 
     @Override

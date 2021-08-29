@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.Tweet;
-import com.alencarfelipe.mytwitter.repositorio.INException;
+import com.alencarfelipe.mytwitter.repositorio.IMException;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.repositorio.UJCException;
@@ -53,7 +53,7 @@ public class Twitter implements ITwitter {
 
         try {
             tweetRepository.addTweet(tweet);
-        } catch(INException ex) {
+        } catch(IMException ex) {
             throw new MFPException();
         }
     }
@@ -108,11 +108,11 @@ public class Twitter implements ITwitter {
 
     @Override
     public int numeroSeguidores(String usuario) throws PIException, PDException {
-        seguidores(usuario).size();
+        return seguidores(usuario).size();
     }
 
     @Override
-    public List<Tweet> seguidores(String usuario)  throws PIException, PDException {
+    public List<Perfil> seguidores(String usuario)  throws PIException, PDException {
         Perfil perfil = repositorioUsuario.buscar(usuario);
         
         if(perfil == null) {

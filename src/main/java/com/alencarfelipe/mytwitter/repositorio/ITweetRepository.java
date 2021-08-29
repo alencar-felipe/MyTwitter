@@ -10,7 +10,7 @@ public interface ITweetRepository {
      * 
      * @param tweet
      */
-    public void addTweet(Tweet tweet) throws INException;
+    public void addTweet(Tweet tweet) throws IMException;
 
     /**
      * Get list of tweets made by a user

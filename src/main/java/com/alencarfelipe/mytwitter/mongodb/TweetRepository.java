@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alencarfelipe.mytwitter.pojos.Perfil;
-import com.alencarfelipe.mytwitter.repositorio.INException;
+import com.alencarfelipe.mytwitter.repositorio.IMException;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.pojos.Tweet;
@@ -28,22 +28,25 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.util.ArrayUtils;
 
+import lombok.RequiredArgsConstructor;
+
 import static com.mongodb.client.model.Filters.eq;
 
 @Primary
 @Component
+@RequiredArgsConstructor
 public class TweetRepository implements ITweetRepository {
+    @Autowired
+    private ITweetServices tweetServices;
+    
+    @Autowired
+    private IRepositorioUsuario repositorioUsuario;
+
     @Value("${database.uri}")
     private String uri;
     
     @Value("${database.name}")
     private String dbName;
-
-    @Autowired
-    private ITweetServices tweetServices;
-
-    @Autowired
-    private IRepositorioUsuario repositorioUsuario;
 
     private MongoClient mongoClient;
     private MongoDatabase db;
@@ -73,11 +76,11 @@ public class TweetRepository implements ITweetRepository {
     }  
     
     @Override
-    public void addTweet(Tweet tweet) throws INException {
+    public void addTweet(Tweet tweet) throws IMException {
         connect();
 
         if(!tweetServices.isTweetValid(tweet)) {
-            throw new INException();
+            throw new IMException();
         }
 
         tweets.insertOne(tweet);

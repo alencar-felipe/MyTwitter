@@ -27,7 +27,7 @@ public class TweetServices implements ITweetServices {
 
     @Override
     public boolean isMessagemValid(Tweet tweet) {
-        String message = tweet.getMessage();
+        String message = tweet.getMensagem();
 
         if(message == null) {
             return false;

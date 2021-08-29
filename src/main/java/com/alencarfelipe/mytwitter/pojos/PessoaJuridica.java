@@ -16,7 +16,6 @@ public class PessoaJuridica extends Perfil {
 
     public PessoaJuridica(String usuario) {
         super(usuario);
-        //TODO Auto-generated constructor stub
     }
 
 }
