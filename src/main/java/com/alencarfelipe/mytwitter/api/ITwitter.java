@@ -57,7 +57,7 @@ public interface ITwitter {
     public List<Tweet> tweets(String usuario) throws PIException, PDException;
 
     /**
-     * Retrieves all tweets from the timeline of the profile passed as parameter
+     * "seguidor" follows "seguido"
      * 
      * @param seguidor
      * @param seguido

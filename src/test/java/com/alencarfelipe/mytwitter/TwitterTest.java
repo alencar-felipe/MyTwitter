@@ -1,5 +1,6 @@
 package com.alencarfelipe.mytwitter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,11 +15,13 @@ import com.alencarfelipe.mytwitter.api.MFPException;
 import com.alencarfelipe.mytwitter.api.PDException;
 import com.alencarfelipe.mytwitter.api.PEException;
 import com.alencarfelipe.mytwitter.api.PIException;
+import com.alencarfelipe.mytwitter.api.SIException;
 import com.alencarfelipe.mytwitter.api.Twitter;
 import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.PessoaFisica;
 import com.alencarfelipe.mytwitter.pojos.PessoaJuridica;
 import com.alencarfelipe.mytwitter.pojos.Tweet;
+import com.alencarfelipe.mytwitter.repositorio.IMException;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.repositorio.UJCException;
@@ -82,11 +85,12 @@ public class TwitterTest {
         when(repositorioUsuario.buscar(pf.getUsuario())).thenReturn(pf);
         when(repositorioUsuario.buscar(pj.getUsuario())).thenReturn(pj);
         when(repositorioUsuario.buscar(inactive.getUsuario())).thenReturn(inactive);
-        
+
         tweetRepository = mock(ITweetRepository.class);
 
         when(tweetRepository.getPerfilTweets(pf)).thenReturn(Arrays.asList(tweetPf));
         when(tweetRepository.getPerfilTweets(pj)).thenReturn(Arrays.asList(tweetPj));
+        doThrow(IMException.class).when(tweetRepository).addTweet(tweetInvalid);
 
         twitter = new Twitter();
         
@@ -118,21 +122,26 @@ public class TwitterTest {
         try {
             twitter.tweetar(pf.getUsuario(), tweetPf.getMensagem());
             twitter.tweetar(pj.getUsuario(), tweetPj.getMensagem());
-        } catch(PIException ex) {
-            fail();
-        } catch(MFPException ex) {
+        } catch(PIException | MFPException  ex) {
             fail();
         }
 
         try {
-            twitter.tweetar(alreadyRegistered.getUsuario(), tweetNotRegistered.getMensagem());
-            twitter.tweetar(pf.getUsuario(), tweetInvalid.getMensagem());
-            
+            twitter.tweetar(notRegistered.getUsuario(), tweetNotRegistered.getMensagem());
             fail();
-        } catch (PIException ex) {
-
         } catch(MFPException ex) {
-        
+            fail();
+        } catch(PIException ex) {
+
+        }
+
+        try { 
+            twitter.tweetar(pf.getUsuario(), tweetInvalid.getMensagem());
+            fail();
+        } catch(PIException ex) {
+            fail();
+        } catch(MFPException ex) {
+
         }
     }
 
@@ -160,6 +169,140 @@ public class TwitterTest {
         try {
             twitter.tweets(inactive.getUsuario());
             fail();
+        } catch(PDException ex) {
+
+        }
+    }
+
+    @Test
+    @Order(4)
+    void seguirTest() {
+        try {
+            twitter.seguir(pf.getUsuario(), pj.getUsuario());
+            twitter.seguir(pj.getUsuario(), pf.getUsuario());
+        } catch(PIException | PDException | SIException ex) {
+            fail();
+        }
+
+        try {
+            twitter.seguir(pf.getUsuario(), notRegistered.getUsuario());
+            fail();
+        } catch(PDException | SIException ex) {
+            fail();
+        } catch(PIException  ex) {
+
+        }
+
+        try {
+            twitter.seguir(pf.getUsuario(), inactive.getUsuario());
+            fail();
+        } catch(PIException | SIException ex) {
+            fail();
+        } catch(PDException ex) {
+
+        }
+        
+        try {
+            twitter.seguir(notRegistered.getUsuario(), pf.getUsuario());
+            fail();
+        } catch(PDException | SIException ex) {
+            fail();
+        } catch(PIException ex) {
+
+        }
+
+        try {
+            twitter.seguir(inactive.getUsuario(), pf.getUsuario());
+            fail();
+        } catch(PIException | SIException ex) {
+            fail();
+        } catch(PDException ex) {
+
+        }
+    }
+
+    @Test
+    @Order(5)
+    void numeroSeguidoresTest() {
+        try {
+            assertEquals(1, twitter.numeroSeguidores(pf.getUsuario()));
+            assertEquals(1, twitter.numeroSeguidores(pj.getUsuario()));
+        } catch(PIException | PDException ex) {
+            fail();     
+        }
+
+        try {
+            twitter.numeroSeguidores(notRegistered.getUsuario());
+            fail();
+        } catch(PIException ex) {
+
+        } catch(PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.numeroSeguidores(inactive.getUsuario());
+            fail();
+        } catch(PIException ex) {
+            fail();  
+        } catch(PDException ex) {
+
+        }
+    }
+
+    @Test
+    @Order(6)
+    void seguidoresTest() {
+        try {
+            twitter.seguidores(pf.getUsuario()).contains(pj);
+            twitter.seguidores(pj.getUsuario()).contains(pf);
+        } catch(PIException | PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.seguidores(notRegistered.getUsuario());
+            fail();
+        } catch(PIException ex) {
+
+        } catch(PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.seguidores(inactive.getUsuario());
+            fail();
+        } catch(PIException ex) {
+            fail();  
+        } catch(PDException ex) {
+
+        }
+    }
+
+    @Test
+    @Order(7)
+    void seguidosTest() {
+        try {
+            twitter.seguidos(pf.getUsuario()).contains(pj);
+            twitter.seguidos(pj.getUsuario()).contains(pf);
+        } catch(PIException | PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.seguidos(notRegistered.getUsuario());
+            fail();
+        } catch(PIException ex) {
+
+        } catch(PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.seguidos(inactive.getUsuario());
+            fail();
+        } catch(PIException ex) {
+            fail();  
         } catch(PDException ex) {
 
         }

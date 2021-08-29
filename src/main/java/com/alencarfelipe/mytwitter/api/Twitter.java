@@ -1,5 +1,6 @@
 package com.alencarfelipe.mytwitter.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alencarfelipe.mytwitter.pojos.Perfil;
@@ -32,6 +33,8 @@ public class Twitter implements ITwitter {
     public void criarPerfil(Perfil usuario) throws PEException {
         try{
             usuario.setAtivo(true);
+            usuario.setSeguidores(new ArrayList<Perfil>());
+            usuario.setSeguidos(new ArrayList<Perfil>());
             repositorioUsuario.cadastrar(usuario);
         } catch (UJCException ex) {
             throw new PEException();
@@ -112,6 +115,9 @@ public class Twitter implements ITwitter {
         if(!perfilSeguidor.isAtivo() || !perfilSeguido.isAtivo()) {
             throw new PDException();
         }
+
+        perfilSeguido.addSeguidor(perfilSeguidor);
+        perfilSeguidor.addSeguido(perfilSeguido);
     }
 
     @Override
