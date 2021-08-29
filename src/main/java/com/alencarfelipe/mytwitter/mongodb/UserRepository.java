@@ -1,6 +1,7 @@
 package com.alencarfelipe.mytwitter.mongodb;
 
 import com.alencarfelipe.mytwitter.pojos.Perfil;
+import com.alencarfelipe.mytwitter.pojos.PerfilDTO;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import com.alencarfelipe.mytwitter.repositorio.UJCException;
