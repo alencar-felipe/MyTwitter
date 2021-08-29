@@ -24,8 +24,8 @@ public class UserRepositoryTest {
     @Test
     void userRepositoryTest() {
         String username = "teste";
-        String cpf1 = "016.891.690-87";
-        String cpf2 = "845.346.369-70";
+        long cpf1 = 1689169087L;
+        long cpf2 = 84534636970L;
 
         PessoaFisica pessoaFisica = new PessoaFisica(username);
         pessoaFisica.setCpf(cpf1);
@@ -35,7 +35,7 @@ public class UserRepositoryTest {
         PessoaFisica perfil = (PessoaFisica) repositorioUsuario.buscar(username);
 
         assertNotNull(perfil);
-        assertEquals(username, perfil.getUsername());
+        assertEquals(username, perfil.getUsuario());
         assertEquals(cpf1, perfil.getCpf());
 
         perfil.setCpf(cpf2);

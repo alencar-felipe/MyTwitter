@@ -1,5 +1,6 @@
 package com.alencarfelipe.mytwitter.mongodb;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,20 +23,29 @@ public class PerfilDTO {
     private long cnpj;
     private String type;  
     
+    public PerfilDTO() {
+
+    }
+
     public PerfilDTO(Perfil perfil) {
         usuario = perfil.getUsuario();
 
-        seguidos = new ArrayList<String>();
+        if(perfil.getSeguidos() != null) {
+            seguidos = new ArrayList<String>();
 
-        for(Perfil p : perfil.getSeguidos()) {
-            seguidos.add(p.getUsuario());
+            for(Perfil p : perfil.getSeguidos()) {
+                seguidos.add(p.getUsuario());
+            }
         }
 
-        seguidores = new ArrayList<String>();
+        if(perfil.getSeguidores() != null) {
+            seguidores = new ArrayList<String>();
 
-        for(Perfil p : perfil.getSeguidores()) {
-            seguidores.add(p.getUsuario());
+            for(Perfil p : perfil.getSeguidores()) {
+                seguidores.add(p.getUsuario());
+            }
         }
+        
 
         ativo = perfil.isAtivo();
 
@@ -55,6 +65,7 @@ public class PerfilDTO {
 
     }
 
+    @Transient
     public Perfil toPerfil(ITweetRepository tweetRepository) {
         Perfil perfil;
 
@@ -75,28 +86,32 @@ public class PerfilDTO {
                 throw new UnsupportedOperationException();
         }
         
-        ArrayList<Perfil> seguidos = new ArrayList<>();
+        if(this.seguidos != null) {
+            ArrayList<Perfil> seguidos = new ArrayList<>();
 
-        for(String usuario : this.seguidos) {
-            seguidos.add(new Perfil(usuario));
+            for(String usuario : this.seguidos) {
+                seguidos.add(new Perfil(usuario));
+            }
+
+            perfil.setSeguidos(seguidos);
+
+            ArrayList<Tweet> timeline = new ArrayList<>();
+
+            for(Perfil p : seguidos) {
+                List<Tweet> tweets = tweetRepository.getPerfilTweets(p);
+                timeline.addAll(tweets);
+            }
+
+            perfil.setTimeline(timeline);
         }
 
-        perfil.setSeguidos(seguidos);
+        if(this.seguidores != null) {
+            ArrayList<Perfil> seguidores = new ArrayList<>();
 
-        ArrayList<Perfil> seguidores = new ArrayList<>();
-
-        for(String usuario : this.seguidores) {
-            seguidores.add(new Perfil(usuario));
+            for(String usuario : this.seguidores) {
+                seguidores.add(new Perfil(usuario));
+            }
         }
-
-        ArrayList<Tweet> timeline = new ArrayList<>();
-
-        for(Perfil p : seguidos) {
-            List<Tweet> tweets = tweetRepository.getPerfilTweets(p);
-            timeline.addAll(tweets);
-        }
-
-        perfil.setTimeline(timeline);
         
         perfil.setAtivo(ativo);
 
