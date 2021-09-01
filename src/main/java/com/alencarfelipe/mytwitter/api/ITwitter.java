@@ -38,7 +38,7 @@ public interface ITwitter {
      * @param usuario
      * @param mensagem
      */
-    public void tweetar(String usuario, String mensagem) throws PIException, MFPException;
+    public void tweetar(String usuario, String mensagem) throws PIException, PDException, MFPException;
     
     /**
      * Retrieves all tweets from the profile timeline

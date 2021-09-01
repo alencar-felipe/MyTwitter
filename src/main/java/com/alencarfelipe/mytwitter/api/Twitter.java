@@ -59,9 +59,15 @@ public class Twitter implements ITwitter {
     }
 
     @Override
-    public void tweetar(String usuario, String mensagem) throws PIException, MFPException {
-        if(repositorioUsuario.buscar(usuario) == null) {
+    public void tweetar(String usuario, String mensagem) throws PIException, PDException, MFPException {
+        Perfil perfil = repositorioUsuario.buscar(usuario);
+        
+        if(perfil == null) {
             throw new PIException();
+        }
+
+        if(!perfil.isAtivo()) {
+            throw new PDException();    
         }
 
         Tweet tweet = new Tweet();
