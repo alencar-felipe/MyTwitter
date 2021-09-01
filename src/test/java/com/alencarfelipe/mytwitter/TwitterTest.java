@@ -17,7 +17,6 @@ import com.alencarfelipe.mytwitter.api.PEException;
 import com.alencarfelipe.mytwitter.api.PIException;
 import com.alencarfelipe.mytwitter.api.SIException;
 import com.alencarfelipe.mytwitter.api.Twitter;
-import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.PessoaFisica;
 import com.alencarfelipe.mytwitter.pojos.PessoaJuridica;
 import com.alencarfelipe.mytwitter.pojos.Tweet;

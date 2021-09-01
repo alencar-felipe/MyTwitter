@@ -2,7 +2,6 @@ package com.alencarfelipe.mytwitter.services;
 
 import com.alencarfelipe.mytwitter.pojos.Tweet;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
-import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

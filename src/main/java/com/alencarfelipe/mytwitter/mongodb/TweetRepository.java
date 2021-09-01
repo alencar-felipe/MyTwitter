@@ -12,7 +12,6 @@ import com.alencarfelipe.mytwitter.repositorio.UNCException;
 import com.alencarfelipe.mytwitter.services.ITweetServices;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -26,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.util.ArrayUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -104,7 +102,7 @@ public class TweetRepository implements ITweetRepository {
         ArrayList<Tweet> userTweets = new ArrayList<>();
 
         MongoCursor<Tweet> cursor =
-            tweets.find(eq("usuario", usuario)).iterator();
+            tweets.find(eq("username", usuario)).iterator();
 
         while(cursor.hasNext()) {
             userTweets.add(cursor.next());

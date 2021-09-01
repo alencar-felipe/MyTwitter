@@ -4,17 +4,16 @@ import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 
 import lombok.Data;
 
 @Data
 public class PerfilDTO {
-    private String usuario;
-    private List<String> seguidos;
-    private List<String> seguidores;
-    private boolean ativo; 
+    private String username;
+    private List<String> followed;
+    private List<String> followers;
+    private boolean active; 
     private long cpf;
     private long cnpj;
     private String type;  
@@ -24,26 +23,25 @@ public class PerfilDTO {
     }
 
     public PerfilDTO(Perfil perfil) {
-        usuario = perfil.getUsuario();
+        username = perfil.getUsuario();
 
         if(perfil.getSeguidos() != null) {
-            seguidos = new ArrayList<String>();
+            followed = new ArrayList<String>();
 
             for(Perfil p : perfil.getSeguidos()) {
-                seguidos.add(p.getUsuario());
+                followed.add(p.getUsuario());
             }
         }
 
         if(perfil.getSeguidores() != null) {
-            seguidores = new ArrayList<String>();
+            followers = new ArrayList<String>();
 
             for(Perfil p : perfil.getSeguidores()) {
-                seguidores.add(p.getUsuario());
+                followers.add(p.getUsuario());
             }
         }
         
-
-        ativo = perfil.isAtivo();
+        active = perfil.isAtivo();
 
         if(perfil instanceof PessoaFisica) {
             type = "PessoaFisica";
@@ -71,13 +69,13 @@ public class PerfilDTO {
 
         switch(type) {
             case "PessoaFisica":
-                PessoaFisica pessoaFisica = new PessoaFisica(usuario);
+                PessoaFisica pessoaFisica = new PessoaFisica(username);
                 pessoaFisica.setCpf(cpf);
                 perfil = (Perfil) pessoaFisica;
                 break;
 
             case "PessoaJuridica":
-                PessoaJuridica pessoaJuridica = new PessoaJuridica(usuario);
+                PessoaJuridica pessoaJuridica = new PessoaJuridica(username);
                 pessoaJuridica.setCnpj(cnpj);
                 perfil = (Perfil) pessoaJuridica;
                 break;
@@ -86,10 +84,10 @@ public class PerfilDTO {
                 throw new UnsupportedOperationException();
         }
         
-        if(this.seguidos != null) {
+        if(this.followed != null) {
             ArrayList<Perfil> seguidos = new ArrayList<>();
 
-            for(String usuario : this.seguidos) {
+            for(String usuario : this.followed) {
                 seguidos.add(new Perfil(usuario));
             }
 
@@ -105,15 +103,15 @@ public class PerfilDTO {
             perfil.setTimeline(timeline);
         }
 
-        if(this.seguidores != null) {
+        if(this.followers != null) {
             ArrayList<Perfil> seguidores = new ArrayList<>();
 
-            for(String usuario : this.seguidores) {
+            for(String usuario : this.followers) {
                 seguidores.add(new Perfil(usuario));
             }
         }
         
-        perfil.setAtivo(ativo);
+        perfil.setAtivo(active);
 
         return perfil;
     }

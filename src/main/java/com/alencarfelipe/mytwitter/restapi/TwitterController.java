@@ -8,6 +8,7 @@ import com.alencarfelipe.mytwitter.api.PDException;
 import com.alencarfelipe.mytwitter.api.PEException;
 import com.alencarfelipe.mytwitter.api.PIException;
 import com.alencarfelipe.mytwitter.api.SIException;
+import com.alencarfelipe.mytwitter.pojos.Perfil;
 import com.alencarfelipe.mytwitter.pojos.PerfilDTO;
 import com.alencarfelipe.mytwitter.pojos.Tweet;
 import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
@@ -91,9 +92,9 @@ public class TwitterController {
         path = "/timeline",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
     )
-    public void timeline(String username) {
+    public List<Tweet> timeline(String username) {
         try {
-            List<Tweet> tweets = twitter.timeline(username);
+            return twitter.timeline(username);
 
         } catch(PIException | PDException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -109,9 +110,9 @@ public class TwitterController {
         path = "/tweets",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
     )
-    public void tweets(String username) {
+    public List<Tweet> tweets(String username) {
         try {
-            twitter.tweets(username);
+            return twitter.tweets(username);
 
         } catch(PIException | PDException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -147,9 +148,9 @@ public class TwitterController {
         path = "/numberOfFollowers",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
     )
-    public void numberOfFollowers(String username) {
+    public int numberOfFollowers(String username) {
         try {
-            twitter.numeroSeguidores(username);
+            return twitter.numeroSeguidores(username);
 
         } catch(PIException | PDException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -166,9 +167,9 @@ public class TwitterController {
         path = "/followers",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
     )
-    public void followers(String username) {
+    public List<Perfil> followers(String username) {
         try {
-            twitter.seguidores(username);
+            return twitter.seguidores(username);
 
         } catch(PIException | PDException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -185,9 +186,9 @@ public class TwitterController {
         path = "/followed",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
     )
-    public void followed(String username) {
+    public List<Perfil> followed(String username) {
         try {
-            twitter.seguidos(username);
+            return twitter.seguidos(username);
 
         } catch(PIException | PDException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

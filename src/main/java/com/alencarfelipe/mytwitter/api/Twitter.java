@@ -54,6 +54,8 @@ public class Twitter implements ITwitter {
         }
         
         perfil.setAtivo(false);
+
+        repositorioUsuario.atualizar(perfil);
     }
 
     @Override

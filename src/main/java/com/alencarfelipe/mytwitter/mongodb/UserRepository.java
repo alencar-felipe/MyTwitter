@@ -84,7 +84,7 @@ public class UserRepository implements IRepositorioUsuario {
     public Perfil buscar(String usuario) {
         connect();
 
-        PerfilDTO perfilDTO = perfis.find(eq("usuario", usuario)).first();
+        PerfilDTO perfilDTO = perfis.find(eq("username", usuario)).first();
 
         if(perfilDTO == null) {
             return null;
@@ -103,7 +103,7 @@ public class UserRepository implements IRepositorioUsuario {
 
         PerfilDTO perfilDTO = new PerfilDTO(perfil);
         
-        perfis.replaceOne(eq("usuario", perfil.getUsuario()), perfilDTO);
+        perfis.replaceOne(eq("username", perfil.getUsuario()), perfilDTO);
     }
 
     @Override
@@ -114,6 +114,6 @@ public class UserRepository implements IRepositorioUsuario {
             throw new UNCException();
         }
 
-        perfis.deleteOne(eq("usuario", perfil.getUsuario()));
+        perfis.deleteOne(eq("username", perfil.getUsuario()));
     }
 }
