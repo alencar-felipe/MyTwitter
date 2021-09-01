@@ -27,7 +27,7 @@ public interface ITwitter {
      * 
      * @param usuario
      */
-    public void cancelarPerfil(String usuario) throws PIException;
+    public void cancelarPerfil(String usuario) throws PIException, PDException;
 
     /**
      * Post tweets

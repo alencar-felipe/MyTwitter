@@ -307,4 +307,32 @@ public class TwitterTest {
 
         }
     }
+
+    @Test
+    @Order(8)
+    void cancelarPerfilTest() {
+        try {
+            twitter.cancelarPerfil(pf.getUsuario());
+        } catch(PIException | PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.cancelarPerfil(notRegistered.getUsuario());
+            fail();
+        } catch(PIException ex) {
+
+        } catch(PDException ex) {
+            fail();
+        }
+
+        try {
+            twitter.cancelarPerfil(inactive.getUsuario());
+            fail();
+        } catch(PIException ex) {
+            fail();
+        } catch(PDException ex) {
+
+        }
+    }
 }

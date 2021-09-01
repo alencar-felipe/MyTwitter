@@ -42,11 +42,15 @@ public class Twitter implements ITwitter {
     }
 
     @Override
-    public void cancelarPerfil(String usuario) throws PIException {
+    public void cancelarPerfil(String usuario) throws PIException, PDException {
         Perfil perfil = repositorioUsuario.buscar(usuario);
 
         if(perfil == null) {
             throw new PIException();
+        }
+
+        if(!perfil.isAtivo()) {
+            throw new PDException();    
         }
         
         perfil.setAtivo(false);
