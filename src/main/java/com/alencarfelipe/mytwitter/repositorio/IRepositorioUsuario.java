@@ -40,4 +40,11 @@ public interface IRepositorioUsuario {
      * @throws UNCException
      */
     public void delete(Perfil usuario) throws UNCException;
+
+    /**
+     * Returns true if user exist
+     * 
+     * @param usuario
+     */
+    public boolean exists(String usuario);
 }

@@ -95,14 +95,14 @@ public class TweetRepository implements ITweetRepository {
         
         String usuario = perfil.getUsuario();
 
-        if(repositorioUsuario.buscar(usuario) == null) {
+        if(!repositorioUsuario.exists(usuario)) {
             throw new UNCException();
         }
 
         ArrayList<Tweet> userTweets = new ArrayList<>();
 
         MongoCursor<Tweet> cursor =
-            tweets.find(eq("username", usuario)).iterator();
+            tweets.find(eq("usuario", usuario)).iterator();
 
         while(cursor.hasNext()) {
             userTweets.add(cursor.next());

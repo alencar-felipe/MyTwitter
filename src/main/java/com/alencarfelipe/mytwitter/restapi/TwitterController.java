@@ -16,6 +16,7 @@ import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -88,9 +89,8 @@ public class TwitterController {
         }
     }
 
-    @PostMapping(
-        path = "/timeline",
-        consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    @GetMapping(
+        path = "/timeline"
     )
     public List<Tweet> timeline(String username) {
         try {
@@ -106,9 +106,8 @@ public class TwitterController {
         } 
     }
 
-    @PostMapping(
-        path = "/tweets",
-        consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    @GetMapping(
+        path = "/tweets"
     )
     public List<Tweet> tweets(String username) {
         try {
@@ -144,9 +143,8 @@ public class TwitterController {
         } 
     }
 
-    @PostMapping(
-        path = "/numberOfFollowers",
-        consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    @GetMapping(
+        path = "/numberOfFollowers"
     )
     public int numberOfFollowers(String username) {
         try {
@@ -163,9 +161,8 @@ public class TwitterController {
         } 
     }
 
-    @PostMapping(
-        path = "/followers",
-        consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    @GetMapping(
+        path = "/followers"
     )
     public List<Perfil> followers(String username) {
         try {
@@ -182,9 +179,8 @@ public class TwitterController {
         }
     }
 
-    @PostMapping(
-        path = "/followed",
-        consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+    @GetMapping(
+        path = "/followed"
     )
     public List<Perfil> followed(String username) {
         try {

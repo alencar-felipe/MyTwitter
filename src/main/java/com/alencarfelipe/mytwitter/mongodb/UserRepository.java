@@ -116,4 +116,14 @@ public class UserRepository implements IRepositorioUsuario {
 
         perfis.deleteOne(eq("username", perfil.getUsuario()));
     }
+
+    @Override
+    public boolean exists(String usuario) {
+        connect();
+
+        PerfilDTO perfilDTO = perfis.find(eq("username", usuario)).first();
+
+        return (perfilDTO != null);
+      
+    }
 }

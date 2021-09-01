@@ -95,6 +95,8 @@ public class PerfilDTO {
 
             ArrayList<Tweet> timeline = new ArrayList<>();
 
+            timeline.addAll(tweetRepository.getPerfilTweets(perfil));
+
             for(Perfil p : seguidos) {
                 List<Tweet> tweets = tweetRepository.getPerfilTweets(p);
                 timeline.addAll(tweets);
