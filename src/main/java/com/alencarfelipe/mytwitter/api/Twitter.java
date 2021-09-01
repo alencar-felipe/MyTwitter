@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.alencarfelipe.mytwitter.pojos.Perfil;
+import com.alencarfelipe.mytwitter.pojos.PerfilDTO;
 import com.alencarfelipe.mytwitter.pojos.Tweet;
 import com.alencarfelipe.mytwitter.repositorio.IMException;
 import com.alencarfelipe.mytwitter.repositorio.IRepositorioUsuario;
@@ -120,10 +121,14 @@ public class Twitter implements ITwitter {
 
         if(!perfilSeguidor.isAtivo() || !perfilSeguido.isAtivo()) {
             throw new PDException();
-        }
+        }   
+
 
         perfilSeguido.addSeguidor(perfilSeguidor);
         perfilSeguidor.addSeguido(perfilSeguido);
+
+        repositorioUsuario.atualizar(perfilSeguido);
+        repositorioUsuario.atualizar(perfilSeguidor);
     }
 
     @Override

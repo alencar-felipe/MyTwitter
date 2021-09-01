@@ -34,11 +34,27 @@ public class Perfil {
     }
 
     public void addSeguido(Perfil usuario) {
-        seguidos.add(usuario);
+        if(!hasSeguido(usuario)) {
+            seguidos.add(usuario);
+        }   
+    }
+
+    public boolean hasSeguido(Perfil usuario) {
+        String username = usuario.getUsuario();
+
+        return seguidos.stream().filter(o -> o.getUsuario().equals(username)).findFirst().isPresent();
     }
 
     public void addSeguidor(Perfil usuario) {
-        seguidores.add(usuario);
+        if(!hasSeguidor(usuario)) {
+            seguidores.add(usuario);
+        }
+    }
+
+    public boolean hasSeguidor(Perfil usuario) {
+        String username = usuario.getUsuario();
+
+        return seguidores.stream().filter(o -> o.getUsuario().equals(username)).findFirst().isPresent();
     }
 
     public void addTweet(Tweet tweet) {

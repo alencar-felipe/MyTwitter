@@ -109,6 +109,8 @@ public class PerfilDTO {
             for(String usuario : this.followers) {
                 seguidores.add(new Perfil(usuario));
             }
+
+            perfil.setSeguidores(seguidores);;
         }
         
         perfil.setAtivo(active);
