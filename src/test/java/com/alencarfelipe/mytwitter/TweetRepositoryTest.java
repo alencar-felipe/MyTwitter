@@ -68,6 +68,7 @@ public class TweetRepositoryTest {
         perfil = new Perfil(username);
         IRepositorioUsuario repositorioUsuario = mock(IRepositorioUsuario.class);
         when(repositorioUsuario.buscar(username)).thenReturn(perfil);
+        when(repositorioUsuario.exists(username)).thenReturn(true);
         
         tweetRepository = new TweetRepository();
         tweetRepository.setUri(uri);
