@@ -16,6 +16,7 @@ import com.alencarfelipe.mytwitter.repositorio.ITweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ public class TwitterController {
     @Autowired
     ITweetRepository tweetRepository;
 
+    @CrossOrigin
     @PostMapping(
         path = "/createProfile",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}    
@@ -52,6 +54,7 @@ public class TwitterController {
         }
     }
 
+    @CrossOrigin
     @PostMapping(
         path = "/cancelProfile",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}    
@@ -70,6 +73,7 @@ public class TwitterController {
         }
     }
 
+    @CrossOrigin
     @PostMapping(
         path = "/tweet",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
@@ -89,6 +93,7 @@ public class TwitterController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(
         path = "/timeline"
     )
@@ -106,6 +111,8 @@ public class TwitterController {
         } 
     }
 
+
+    @CrossOrigin
     @GetMapping(
         path = "/tweets"
     )
@@ -124,6 +131,7 @@ public class TwitterController {
         } 
     }
 
+    @CrossOrigin
     @PostMapping(
         path = "/follow",
         consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
@@ -143,6 +151,7 @@ public class TwitterController {
         } 
     }
 
+    @CrossOrigin
     @GetMapping(
         path = "/numberOfFollowers"
     )
@@ -161,6 +170,7 @@ public class TwitterController {
         } 
     }
 
+    @CrossOrigin
     @GetMapping(
         path = "/followers"
     )
@@ -179,6 +189,7 @@ public class TwitterController {
         }
     }
 
+    @CrossOrigin
     @GetMapping(
         path = "/followed"
     )
