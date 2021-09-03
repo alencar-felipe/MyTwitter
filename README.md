@@ -2,6 +2,6 @@
 
 Final project of POO discipline
 
-[![Video](http://img.youtube.com/vi/ImVbYVC3YyA/0.jpg)](http://www.youtube.com/watch?v=ImVbYVC3YyA "Projeto Final da Disciplina de POO")
+[![Video](https://yt-embed.herokuapp.com/embed?v=ImVbYVC3YyA)](http://www.youtube.com/watch?v=ImVbYVC3YyA "Projeto Final da Disciplina de POO")
 
 
